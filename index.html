@@ -240,7 +240,7 @@
           <div class="heart-decoration heart-3">🎈</div>
           <div class="heart-decoration heart-4">🌟</div>
 
-          <div class="title">Tanti Auguri!</div>
+          <div class="title">Happy Birthday</div>
           <div class="gift-icon">🎁</div>
           <div class="name">Franzi</div>
           <div class="click-hint">Clicca per aprire il biglietto ✨</div>
@@ -250,11 +250,21 @@
 
         <div class="card-face card-back">
           <div class="message">
-            <video width="380" height="450" autoplay>
-                <source src="./Progetto senza titolo.mp4" type="video/mp4">
-              </video>
+            <p>Che Taylor Jesus sia sempre con te ✨ <br /></p>
+            <video width="380" height="450" autoplay muted playsinline>
+              <source src="./franzi-hb.mp4" type="video/mp4" />
+            </video>
           </div>
-          <div class="click-hint">Clicca per chiudere</div>
+          <iframe
+          id="youtubeVideo"
+          width="300"
+          height="170"
+          src="https://www.youtube.com/embed/nkmNsAyqi1I?start=40&controls=0&enablejsapi=1&autoplay=0"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+                  <div class="click-hint">Clicca per chiudere</div>
         </div>
       </div>
     </div>
@@ -262,6 +272,23 @@
     <script>
       let isFlipped = false;
       let confettiActive = false;
+
+      // function flipCard() {
+      //   const card = document.getElementById("card");
+      //   isFlipped = !isFlipped;
+
+      //   if (isFlipped) {
+      //     card.classList.add("flipped");
+      //     if (!confettiActive) {
+      //       createConfetti();
+      //       confettiActive = true;
+      //     }
+      //   } else {
+      //     card.classList.remove("flipped");
+      //   }
+      // }
+
+      let player; // variabile globale per il player YouTube
 
       function flipCard() {
         const card = document.getElementById("card");
@@ -273,10 +300,28 @@
             createConfetti();
             confettiActive = true;
           }
+          if (player) player.playVideo(); // ▶️ Avvia il video
         } else {
           card.classList.remove("flipped");
+          if (player) player.pauseVideo(); // ⏸️ Ferma il video
         }
       }
+
+      // YouTube API callback
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("youtubeVideo", {
+          events: {
+            onReady: (event) => {
+              // Non fare nulla qui
+            },
+          },
+        });
+      }
+
+      // Carica l'API JS di YouTube
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
 
       function createConfetti() {
         const container = document.getElementById("confetti-container");
